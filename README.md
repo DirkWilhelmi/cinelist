@@ -1,2 +1,2 @@
 # cinelist
-This is a helpfull README
+This is a helpful README
