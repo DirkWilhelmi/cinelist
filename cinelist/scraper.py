@@ -25,3 +25,23 @@ def kinopolis(day, cinema):
             movies.append(movie)
 
     return movies
+
+def google(day, cinema):
+    """Takes a day and a cinema code to scrape the showings from google movies.
+
+        day is a number, 0 is today, 1 tomorrow and so on
+        the cinema code is the same as on google movies e.g. 26a2d59f12c891 for Harmonie Kinos"""
+
+    page = requests.get('http://www.google.de/movies?tid=' + cinema + '&date=' + str(day))
+    tree = html.fromstring(page.text)
+
+    results = tree.xpath('//div[@class="movie"]')
+
+    movies = []
+
+    for result in results:
+        movie = {}
+        movie['showing'] = result.xpath("div[@class='times']//span[not(contains(@style,'padding:0'))]/text()")
+        movie['title'] = result.xpath('div[@class="name"]/a/text()')
+        movies.append(movie)
+    return movies
